@@ -15,7 +15,6 @@
  */
 package com.example.androiddevchallenge.ui
 
-import android.util.Log
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -26,17 +25,18 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.androiddevchallenge.ui.components.CountSetInput
 import com.example.androiddevchallenge.ui.components.Timer
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    counting: Boolean,
+    onReset: () -> Unit,
+    onStart: (Int) -> Unit,
+    count: Int,
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -51,30 +51,32 @@ fun HomeScreen() {
             )
         }
     ) {
-        BodyContent()
+        BodyContent(
+            counting,
+            onReset,
+            onStart,
+            count,
+        )
     }
 }
 
 @Composable
-fun BodyContent() {
-    var counting by remember { mutableStateOf(false) }
-    var initialSecond by remember { mutableStateOf(20) }
-    var count by remember { mutableStateOf(20) }
-
+fun BodyContent(
+    counting: Boolean,
+    onReset: () -> Unit,
+    onStart: (Int) -> Unit,
+    count: Int,
+) {
     Surface(color = MaterialTheme.colors.background) {
         if (counting) {
-            Timer(count) {
-                counting = false
-            }
+            Timer(
+                count = count,
+                onReset = onReset,
+            )
         } else {
             CountSetInput(
-                initialSecond = initialSecond,
-                onInitialSecondChanged = {
-                    Log.i("SHIM", "initialSecond: $initialSecond")
-                    counting = true
-                    count = it
-                    initialSecond = it
-                }
+                10,
+                onStart = onStart,
             )
         }
     }
@@ -84,6 +86,6 @@ fun BodyContent() {
 @Composable
 fun BodyContentPreview() {
     MyTheme {
-        BodyContent()
+        BodyContent(false, {}, {}, 10)
     }
 }

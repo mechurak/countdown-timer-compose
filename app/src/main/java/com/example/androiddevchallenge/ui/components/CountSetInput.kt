@@ -45,7 +45,7 @@ import com.example.androiddevchallenge.ui.theme.MyTheme
 @Composable
 fun CountSetInput(
     initialSecond: Int,
-    onInitialSecondChanged: (Int) -> Unit
+    onStart: (Int) -> Unit
 ) {
     var min by remember { mutableStateOf((initialSecond / 60).toString()) }
     var sec by remember { mutableStateOf((initialSecond % 60).toString()) }
@@ -109,7 +109,7 @@ fun CountSetInput(
 
         Button(
             onClick = {
-                onInitialSecondChanged(min.toInt() * 60 + sec.toInt())
+                onStart(min.toInt() * 60 + sec.toInt())
             },
             modifier = Modifier.width(260.dp)
         ) {

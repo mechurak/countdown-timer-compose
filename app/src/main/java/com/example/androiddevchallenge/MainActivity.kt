@@ -17,6 +17,7 @@ package com.example.androiddevchallenge
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,11 +25,18 @@ import com.example.androiddevchallenge.ui.HomeScreen
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 class MainActivity : AppCompatActivity() {
+    val timerViewModel by viewModels<TimerViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MyTheme {
-                HomeScreen()
+                HomeScreen(
+                    counting = timerViewModel.counting,
+                    onReset = timerViewModel::onReset,
+                    onStart = timerViewModel::onStart,
+                    count = timerViewModel.count
+                )
             }
         }
     }
@@ -38,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun LightPreview() {
     MyTheme {
-        HomeScreen()
+        HomeScreen(false, {}, {}, 10)
     }
 }
 
@@ -46,6 +54,6 @@ fun LightPreview() {
 @Composable
 fun DarkPreview() {
     MyTheme(darkTheme = true) {
-        HomeScreen()
+        HomeScreen(false, {}, {}, 10)
     }
 }
