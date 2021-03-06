@@ -15,6 +15,8 @@
  */
 package com.example.androiddevchallenge.ui.components
 
+import android.media.MediaPlayer
+import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,9 +33,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 @Composable
@@ -41,6 +45,28 @@ fun Timer(count: Int, onReset: () -> Unit) {
     val min = (count / 60).toString()
     val sec = (count % 60).toString()
     Log.i("SHIM", "min: $min, sec: $sec")
+
+    var soundUri: Uri? = null
+    when (count) {
+        0 -> soundUri = Uri.parse("android.resource://com.example.androiddevchallenge/" + R.raw.number_0)
+        1 -> soundUri = Uri.parse("android.resource://com.example.androiddevchallenge/" + R.raw.number_1)
+        2 -> soundUri = Uri.parse("android.resource://com.example.androiddevchallenge/" + R.raw.number_2)
+        3 -> soundUri = Uri.parse("android.resource://com.example.androiddevchallenge/" + R.raw.number_3)
+        4 -> soundUri = Uri.parse("android.resource://com.example.androiddevchallenge/" + R.raw.number_4)
+        5 -> soundUri = Uri.parse("android.resource://com.example.androiddevchallenge/" + R.raw.number_5)
+        6 -> soundUri = Uri.parse("android.resource://com.example.androiddevchallenge/" + R.raw.number_6)
+        7 -> soundUri = Uri.parse("android.resource://com.example.androiddevchallenge/" + R.raw.number_7)
+        8 -> soundUri = Uri.parse("android.resource://com.example.androiddevchallenge/" + R.raw.number_8)
+        9 -> soundUri = Uri.parse("android.resource://com.example.androiddevchallenge/" + R.raw.number_9)
+        10 -> soundUri = Uri.parse("android.resource://com.example.androiddevchallenge/" + R.raw.number_10)
+    }
+
+    if (soundUri != null) {
+        Log.i("SHIM", "soundURI: $soundUri")
+        val player = MediaPlayer.create(LocalContext.current, soundUri)
+        player.isLooping = false
+        player.start()
+    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
