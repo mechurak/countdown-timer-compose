@@ -15,6 +15,7 @@
  */
 package com.example.androiddevchallenge.ui
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -25,10 +26,12 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.androiddevchallenge.ui.components.CountSetInput
 import com.example.androiddevchallenge.ui.components.Timer
 import com.example.androiddevchallenge.ui.theme.MyTheme
+import com.example.androiddevchallenge.ui.theme.brown100
 
 @Composable
 fun HomeScreen(
@@ -67,7 +70,8 @@ fun BodyContent(
     onStart: (Int) -> Unit,
     count: Int,
 ) {
-    Surface(color = MaterialTheme.colors.background) {
+    val backgroundColor by animateColorAsState(if (counting) brown100 else MaterialTheme.colors.background)
+    Surface(color = backgroundColor) {
         if (counting) {
             Timer(
                 count = count,
