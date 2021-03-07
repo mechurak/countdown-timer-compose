@@ -16,7 +16,7 @@
 package com.example.androiddevchallenge.ui.components
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.keyframes
 import androidx.compose.material.MaterialTheme
@@ -24,28 +24,46 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.androiddevchallenge.ui.theme.MyTheme
 
 @Composable
-fun Separator(count: Int) {
+fun AnimationText(text: String) {
     val alphaValue = remember { Animatable(1.0f) }
 
-    LaunchedEffect(count) {
+    LaunchedEffect(text) {
         alphaValue.animateTo(
-            targetValue = 0.05f,
+            targetValue = 0.0f,
             animationSpec = keyframes {
-                durationMillis = 900
+                durationMillis = 500
                 0.0f at 0 with LinearOutSlowInEasing
                 1.0f at 30
-                1.0f at 500 with FastOutLinearInEasing
+                0.9f at 60 with FastOutSlowInEasing
             }
         )
     }
 
     Text(
-        text = ":",
+        text = text,
+        textAlign = TextAlign.Center,
+        style = MaterialTheme.typography.h2
+    )
+    Text(
+        text = text,
         textAlign = TextAlign.Center,
         style = MaterialTheme.typography.h2,
         color = MaterialTheme.colors.onSurface.copy(alpha = alphaValue.value),
+        modifier = Modifier.scale((1.0f - 2.5f) / 1.0f * alphaValue.value + 2.5f)
     )
+}
+
+@Preview
+@Composable
+fun AnimationTextPreview() {
+    MyTheme {
+        AnimationText("10")
+    }
 }
