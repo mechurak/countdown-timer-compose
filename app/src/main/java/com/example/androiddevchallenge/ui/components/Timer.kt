@@ -95,11 +95,7 @@ fun Timer(count: Int, onReset: () -> Unit) {
                     .width(30.dp)
                     .height(120.dp)
             ) {
-                Text(
-                    text = ":",
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.h2,
-                )
+                Separator(count)
             }
             Box(
                 contentAlignment = Alignment.Center,
