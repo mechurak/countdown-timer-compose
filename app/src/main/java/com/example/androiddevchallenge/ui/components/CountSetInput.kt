@@ -50,6 +50,10 @@ fun CountSetInput(
     var min by remember { mutableStateOf((initialSecond / 60).toString()) }
     var sec by remember { mutableStateOf((initialSecond % 60).toString()) }
 
+    val isValid = { text: String ->
+        text.length in 1..2 && text.toInt() <= 60
+    }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -71,9 +75,11 @@ fun CountSetInput(
                     label = { Text("min") },
                     value = min,
                     onValueChange = { min = it },
+                    // TODO: Apply right align. (Currently, it makes initial values invisible.)
                     textStyle = MaterialTheme.typography.h2,
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    isError = !isValid(min),
                 )
             }
             Box(
@@ -101,6 +107,7 @@ fun CountSetInput(
                     textStyle = MaterialTheme.typography.h2,
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    isError = !isValid(sec),
                 )
             }
         }
@@ -109,7 +116,9 @@ fun CountSetInput(
 
         Button(
             onClick = {
-                onStart(min.toInt() * 60 + sec.toInt())
+                if (isValid(min) && isValid(sec)) {
+                    onStart(min.toInt() * 60 + sec.toInt())
+                }
             },
             modifier = Modifier.width(260.dp)
         ) {

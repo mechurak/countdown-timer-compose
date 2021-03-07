@@ -42,8 +42,14 @@ import com.example.androiddevchallenge.ui.theme.MyTheme
 
 @Composable
 fun Timer(count: Int, onReset: () -> Unit) {
-    val min = (count / 60).toString()
-    val sec = (count % 60).toString()
+    var min = (count / 60).toString()
+    if (min.length == 1) {
+        min = "0$min"
+    }
+    var sec = (count % 60).toString()
+    if (sec.length == 1) {
+        sec = "0$sec"
+    }
     Log.i("SHIM", "min: $min, sec: $sec")
 
     var soundUri: Uri? = null
