@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.ui.theme.MyTheme
+import com.example.androiddevchallenge.ui.theme.red200
 
 @Composable
 fun Timer(count: Int, onReset: () -> Unit) {
@@ -111,7 +113,8 @@ fun Timer(count: Int, onReset: () -> Unit) {
 
         Button(
             onClick = { onReset() },
-            modifier = Modifier.width(260.dp)
+            modifier = Modifier.width(260.dp),
+            colors = if (count == 0) ButtonDefaults.buttonColors() else ButtonDefaults.buttonColors(backgroundColor = red200),
         ) {
             Text(
                 text = "Reset",
